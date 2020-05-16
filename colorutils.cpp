@@ -166,15 +166,20 @@ void fill_gradient_RGB( CRGB* leds, uint16_t numLeds, const CRGB& c1, const CRGB
     fill_gradient_RGB( leds, twothirds, c3,      last, c4);
 }
 
-
-
-
 void nscale8_video( CRGB* leds, uint16_t num_leds, uint8_t scale)
 {
     for( uint16_t i = 0; i < num_leds; i++) {
         leds[i].nscale8_video( scale);
     }
 }
+
+void nscale8_video( CRGBW* leds, uint16_t num_leds, uint8_t scale)
+{
+    for( uint16_t i = 0; i < num_leds; i++) {
+        leds[i].nscale8_video( scale);
+    }
+}
+
 
 void fade_video(CRGB* leds, uint16_t num_leds, uint8_t fadeBy)
 {
@@ -186,8 +191,18 @@ void fadeLightBy(CRGB* leds, uint16_t num_leds, uint8_t fadeBy)
     nscale8_video( leds, num_leds, 255 - fadeBy);
 }
 
+void fadeLightBy(CRGBW* leds, uint16_t num_leds, uint8_t fadeBy)
+{
+    nscale8_video( leds, num_leds, 255 - fadeBy);
+}
+
 
 void fadeToBlackBy( CRGB* leds, uint16_t num_leds, uint8_t fadeBy)
+{
+    nscale8( leds, num_leds, 255 - fadeBy);
+}
+
+void fadeToBlackBy( CRGBW* leds, uint16_t num_leds, uint8_t fadeBy)
 {
     nscale8( leds, num_leds, 255 - fadeBy);
 }
@@ -208,6 +223,14 @@ void nscale8( CRGB* leds, uint16_t num_leds, uint8_t scale)
         leds[i].nscale8( scale);
     }
 }
+
+void nscale8( CRGBW* leds, uint16_t num_leds, uint8_t scale)
+{
+    for( uint16_t i = 0; i < num_leds; i++) {
+        leds[i].nscale8( scale);
+    }
+}
+
 
 void fadeUsingColor( CRGB* leds, uint16_t numLeds, const CRGB& colormask)
 {

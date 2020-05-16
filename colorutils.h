@@ -246,12 +246,14 @@ void nscale8_video( CRGB* leds, uint16_t num_leds, uint8_t scale);
 //                              the way to black.
 //                              (The two names are synonyms.)
 void fadeToBlackBy( CRGB* leds, uint16_t num_leds, uint8_t fadeBy);
+void fadeToBlackBy( CRGBW* leds, uint16_t num_leds, uint8_t fadeBy);
 void fade_raw(      CRGB* leds, uint16_t num_leds, uint8_t fadeBy);
 
 // nscale8 - scale down the brightness of an array of pixels
 //           all at once.  This function can scale pixels all the
 //           way down to black even if 'scale' is not zero.
 void nscale8(       CRGB* leds, uint16_t num_leds, uint8_t scale);
+void nscale8(       CRGBW* leds, uint16_t num_leds, uint8_t scale);
 
 // fadeUsingColor - scale down the brightness of an array of pixels,
 //                  as though it were seen through a transparent

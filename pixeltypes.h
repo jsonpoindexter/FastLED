@@ -343,7 +343,7 @@ struct CRGB {
         nscale8x3_video( r, g, b, scaledown);
         return *this;
     }
-
+    
     /// %= is a synonym for nscale8_video.  Think of it is scaling down
     /// by "a percentage"
     inline CRGB& operator%= (uint8_t scaledown )
@@ -764,6 +764,76 @@ struct CRGB {
     } HTMLColorCode;
 };
 
+struct CRGBW  {
+    union {
+        struct {
+        union {
+            uint8_t g;
+            uint8_t green;
+        };
+        union {
+            uint8_t r;
+            uint8_t red;
+        };
+        union {
+            uint8_t b;
+            uint8_t blue;
+        };
+        union {
+            uint8_t w;
+            uint8_t white;
+        };
+    };
+    uint8_t raw[4];
+};
+
+    CRGBW(){}
+
+    /// scale down a RGB to N 256ths of it's current brightness, using
+    /// 'video' dimming rules, which means that unless the scale factor is ZERO
+    /// each channel is guaranteed NOT to dim down to zero.  If it's already
+    /// nonzero, it'll stay nonzero, even if that means the hue shifts a little
+    /// at low brightness levels.
+    inline CRGBW& nscale8_video (uint8_t scaledown )
+    {
+        nscale8x3_video( r, g, b, scaledown);
+        return *this;
+    }
+
+    /// scale down a RGB to N 256ths of it's current brightness, using
+    /// 'plain math' dimming rules, which means that if the low light levels
+    /// may dim all the way to 100% black.
+    inline CRGBW& nscale8 (uint8_t scaledown )
+    {
+        nscale8x3( r, g, b, scaledown);
+        return *this;
+    }
+
+    /// scale down a RGB to N 256ths of it's current brightness, using
+    /// 'plain math' dimming rules, which means that if the low light levels
+    /// may dim all the way to 100% black.
+    inline CRGBW& nscale8 (const CRGBW & scaledown )
+    {
+        r = ::scale8(r, scaledown.r);
+        g = ::scale8(g, scaledown.g);
+        b = ::scale8(b, scaledown.b);
+        return *this;
+    }
+
+    CRGBW(uint8_t rd, uint8_t grn, uint8_t blu, uint8_t wht){
+        r = rd;
+        g = grn;
+        b = blu;
+        w = wht;
+    }
+
+    inline void operator = (const CRGB c) __attribute__((always_inline)){ 
+        this->r = c.r;
+        this->g = c.g;
+        this->b = c.b;
+        this->white = 0;
+}
+};
 
 inline __attribute__((always_inline)) bool operator== (const CRGB& lhs, const CRGB& rhs)
 {
